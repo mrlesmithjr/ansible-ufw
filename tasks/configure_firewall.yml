@@ -13,15 +13,15 @@
 
 - name: configure_firewall | configuring UFW rules
   ufw:
-    delete: "{{ item.delete | default(omit) }}"
-    direction: "{{ item.direction | default(omit) }}"
-    from_ip: "{{ item.from_ip | default(omit) }}"
+    delete: "{{ item.delete | default('no') }}"
+    direction: "{{ item.direction | default('in') }}"
+    from_ip: "{{ item.from_ip | default('any') }}"
     from_port: "{{ item.from_port | default(omit) }}"
-    interface: "{{ item.interface | default(omit) }}"
-    log: "{{ item.log | default(omit) }}"
+    interface: "{{ item.interface | default('') }}"
+    log: "{{ item.log | default('no') }}"
     proto: "{{ item.proto }}"
     rule: "{{ item.rule }}"
-    to_ip: "{{ item.to_ip | default(omit) }}"
+    to_ip: "{{ item.to_ip | default('any') }}"
     to_port: "{{ item.to_port }}"
   notify: reload ufw
   with_items: ufw_rules
