@@ -2,13 +2,11 @@
 - name: configure_firewall | configuring UFW logging
   ufw:
     logging: "{{ ufw_logging }}"
-  notify: reload ufw
   when: ufw_logging is defined
 
 - name: configure_firewall | configuring UFW state
   ufw:
     state: "{{ ufw_state }}"
-  notify: reload ufw
   when: ufw_state is defined
 
 - name: configure_firewall | configuring UFW rules
@@ -23,7 +21,6 @@
     rule: "{{ item.rule }}"
     to_ip: "{{ item.to_ip | default(omit) }}"
     to_port: "{{ item.to_port }}"
-  notify: reload ufw
   with_items: ufw_rules
   when: ufw_rules is defined
 
@@ -31,6 +28,5 @@
   ufw:
     direction: "{{ item.direction }}"
     policy: "{{ item.policy }}"
-  notify: reload ufw
   with_items: ufw_policies
   when: ufw_policies is defined
