@@ -27,8 +27,10 @@
   with_items: ufw_rules
   when: ufw_rules is defined
 
-- name: configure_firewall | setting default UFW policy
+- name: configure_firewall | setting default UFW policies (incoming, outgoing and routed)
   ufw:
-    policy: "{{ ufw_policy }}"
+    direction: "{{ item.direction }}"
+    policy: "{{ item.policy }}"
   notify: reload ufw
-  when: ufw_policy is defined
+  with_items: ufw_policies
+  when: ufw_policies is defined

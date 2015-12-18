@@ -25,8 +25,14 @@ ufw_rules:  #defines rules to be configured...commented out lines are not requir
     proto: tcp  #defines protocol...any, tcp, udp, ipv6, esp or ah
 #    to_ip: 1.2.3.4  #defines address to allow connections to
     to_port: 22  #defines port to allow connections to
-ufw_logging: on  #defines UFW logging...on, off, low, medium, high or full
-ufw_policy: deny  #defines default policy for incoming or outgoing traffic...allow, deny or reject
+ufw_logging: 'on'  #defines UFW logging...on, off, low, medium, high or full
+ufw_policies:  #defines default policy for incoming, outgoing and routed (forwarded) traffic...allow, deny or reject
+  - direction: incoming
+    policy: deny
+  - direction: outgoing
+    policy: allow
+  - direction: routed
+    policy: deny
 ufw_state: enabled  #defines UFW firewall state...enabled, disabled, reloaded or reset
 ````
 
