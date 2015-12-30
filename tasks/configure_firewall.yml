@@ -24,9 +24,16 @@
   with_items: ufw_rules
   when: ufw_rules is defined
 
-- name: configure_firewall | setting default UFW policies (incoming, outgoing and routed)
+- name: configure_firewall | setting default UFW policies (incoming, outgoing)
   ufw:
     direction: "{{ item.direction }}"
     policy: "{{ item.policy }}"
   with_items: ufw_policies
-  when: ufw_policies is defined
+  when: item.direction != "routed"
+
+- name: configure_firewall | setting default UFW policies (routed)
+  ufw:
+    direction: "{{ item.direction }}"
+    policy: "{{ item.policy }}"
+  with_items: ufw_policies
+  when: item.direction == "routed" and ansible_distribution != "Debian"
