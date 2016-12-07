@@ -21,19 +21,19 @@
     rule: "{{ item.rule }}"
     to_ip: "{{ item.to_ip | default(omit) }}"
     to_port: "{{ item.to_port }}"
-  with_items: ufw_rules
+  with_items: "{{ ufw_rules }}"
   when: ufw_rules is defined
 
 - name: configure_firewall | setting default UFW policies (incoming, outgoing)
   ufw:
     direction: "{{ item.direction }}"
     policy: "{{ item.policy }}"
-  with_items: ufw_policies
+  with_items: "{{ ufw_policies }}"
   when: item.direction != "routed"
 
 - name: configure_firewall | setting default UFW policies (routed)
   ufw:
     direction: "{{ item.direction }}"
     policy: "{{ item.policy }}"
-  with_items: ufw_policies
+  with_items: "{{ ufw_policies }}"
   when: item.direction == "routed" and ansible_distribution != "Debian"
